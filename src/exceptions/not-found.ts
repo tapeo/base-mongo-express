@@ -1,0 +1,1 @@
+class NotFoundException extends Error {}
