@@ -22,8 +22,8 @@ steps:
       - "--max-instances=1"
       - "--cpu=1"
       - "--memory=256Mi"
-      - "--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,ENV=production"
-      - "--set-secrets=MAILERSEND_API_KEY=mailersend-apikey:latest,ACCESS_TOKEN_SECRET=access-token-secret:latest,REFRESH_TOKEN_SECRET=refresh-token-secret:latest,ENCRYPTION_KEY=encryption-key:latest,MONGO_URI=mongo-uri:latest,APPLE_PRIVATE_KEY=apple-private-key:latest"
+      - "--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,ENV=production,DOMAIN=your-domain.com,DEV_SERVER_HTTPS=false"
+      - "--set-secrets=MAILERSEND_API_KEY=MAILERSEND_API_KEY:latest,ACCESS_TOKEN_SECRET=ACCESS_TOKEN_SECRET:latest,REFRESH_TOKEN_SECRET=REFRESH_TOKEN_SECRET:latest,ENCRYPTION_KEY=ENCRYPTION_KEY:latest,MONGO_URI=MONGO_URI:latest,APPLE_PRIVATE_KEY=APPLE_PRIVATE_KEY:latest,ONESIGNAL_API_KEY=ONESIGNAL_API_KEY:latest,ONESIGNAL_APP_ID=ONESIGNAL_APP_ID:latest,STRIPE_SECRET_KEY=STRIPE_SECRET_KEY:latest,TELEGRAM_BOT_TOKEN=TELEGRAM_BOT_TOKEN:latest,TELEGRAM_CHAT_ID=TELEGRAM_CHAT_ID:latest"
     secretEnv:
       [
         "MAILERSEND_API_KEY",
@@ -32,6 +32,11 @@ steps:
         "ENCRYPTION_KEY",
         "MONGO_URI",
         "APPLE_PRIVATE_KEY",
+        "ONESIGNAL_API_KEY",
+        "ONESIGNAL_APP_ID",
+        "STRIPE_SECRET_KEY",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
       ]
 
 images:
@@ -54,3 +59,13 @@ availableSecrets:
       env: "MONGO_URI"
     - versionName: projects/$PROJECT_ID/secrets/APPLE_PRIVATE_KEY/versions/latest
       env: "APPLE_PRIVATE_KEY"
+    - versionName: projects/$PROJECT_ID/secrets/ONESIGNAL_API_KEY/versions/latest
+      env: "ONESIGNAL_API_KEY"
+    - versionName: projects/$PROJECT_ID/secrets/ONESIGNAL_APP_ID/versions/latest
+      env: "ONESIGNAL_APP_ID"
+    - versionName: projects/$PROJECT_ID/secrets/STRIPE_SECRET_KEY/versions/latest
+      env: "STRIPE_SECRET_KEY"
+    - versionName: projects/$PROJECT_ID/secrets/TELEGRAM_BOT_TOKEN/versions/latest
+      env: "TELEGRAM_BOT_TOKEN"
+    - versionName: projects/$PROJECT_ID/secrets/TELEGRAM_CHAT_ID/versions/latest
+      env: "TELEGRAM_CHAT_ID"
