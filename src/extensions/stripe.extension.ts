@@ -32,6 +32,15 @@ export class StripeExtension {
   }
 
   /**
+   * Get a Stripe customer by ID
+   */
+  async getCustomer(
+    customerId: string
+  ): Promise<Stripe.Customer | Stripe.DeletedCustomer> {
+    return await this.stripe.customers.retrieve(customerId);
+  }
+
+  /**
    * Create a subscription with an optional trial period
    */
   async createSubscription(
