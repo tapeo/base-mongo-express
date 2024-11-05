@@ -25,8 +25,10 @@ export const signupHandler = async (req: Request, res: Response) => {
   try {
     const user = await UserService.post(email, passwordEncrypted);
 
+    const domain = process.env.DOMAIN;
+
     await extensionSendTelegramBotMessage({
-      content: `New user registered: ${email}`,
+      content: `New user registered: ${email} on ${domain}`,
     });
 
     res.json({
