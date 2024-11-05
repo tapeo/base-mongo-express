@@ -21,7 +21,7 @@ steps:
       - "--min-instances=0"
       - "--max-instances=1"
       - "--cpu=1"
-      - "--memory=128Mi"
+      - "--memory=256Mi"
       - "--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,ENV=production"
       - "--set-secrets=MAILERSEND_API_KEY=mailersend-apikey:latest,ACCESS_TOKEN_SECRET=access-token-secret:latest,REFRESH_TOKEN_SECRET=refresh-token-secret:latest,ENCRYPTION_KEY=encryption-key:latest,MONGO_URI=mongo-uri:latest,APPLE_PRIVATE_KEY=apple-private-key:latest"
     secretEnv:
