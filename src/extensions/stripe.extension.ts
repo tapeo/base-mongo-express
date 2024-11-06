@@ -190,4 +190,11 @@ export class StripeExtension {
       webhookSecret
     );
   }
+
+  /**
+   * Get price
+   */
+  async getPrice(priceId: string): Promise<Stripe.Price> {
+    return await this.stripe.prices.retrieve(priceId);
+  }
 }
