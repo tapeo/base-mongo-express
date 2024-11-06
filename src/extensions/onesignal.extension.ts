@@ -3,6 +3,14 @@ interface SendPushNotificationParams {
     en: string;
     it?: string;
   };
+  headings?: {
+    en?: string;
+    it?: string;
+  };
+  subtitle?: {
+    en?: string;
+    it?: string;
+  };
   includedSegments?: string[];
   excludedSegments?: string[];
   includeSubscriptionIds?: string[];
@@ -12,6 +20,8 @@ interface SendPushNotificationParams {
 
 export const sendPushNotification = async ({
   contents,
+  headings,
+  subtitle,
   includedSegments = [],
   excludedSegments = [],
   includeSubscriptionIds = [],
@@ -21,6 +31,8 @@ export const sendPushNotification = async ({
   try {
     return await send({
       contents,
+      headings,
+      subtitle,
       includedSegments,
       excludedSegments,
       includeSubscriptionIds,
@@ -39,6 +51,8 @@ export const sendPushNotification = async ({
         await createSegment({ name: includedSegments[0] });
         return await send({
           contents,
+          headings,
+          subtitle,
           includedSegments,
           excludedSegments,
           includeSubscriptionIds,
@@ -57,6 +71,8 @@ export const sendPushNotification = async ({
 
 const send = async ({
   contents,
+  headings,
+  subtitle,
   includedSegments,
   excludedSegments,
   includeSubscriptionIds,
@@ -64,6 +80,8 @@ const send = async ({
   webUrl,
 }: {
   contents: SendPushNotificationParams["contents"];
+  headings?: SendPushNotificationParams["headings"];
+  subtitle?: SendPushNotificationParams["subtitle"];
   includedSegments: string[];
   excludedSegments: string[];
   includeSubscriptionIds: string[];
@@ -95,6 +113,8 @@ const send = async ({
     body: JSON.stringify({
       app_id: appId,
       contents,
+      headings,
+      subtitle,
       included_segments:
         includedSegments?.length > 0 ? includedSegments : undefined,
       excluded_segments:
