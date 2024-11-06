@@ -6,6 +6,7 @@ interface SendPushNotificationParams {
   includedSegments?: string[];
   excludedSegments?: string[];
   includeSubscriptionIds?: string[];
+  url: string;
 }
 
 export const sendPushNotification = async ({
@@ -13,6 +14,7 @@ export const sendPushNotification = async ({
   includedSegments = [],
   excludedSegments = [],
   includeSubscriptionIds = [],
+  url,
 }: SendPushNotificationParams) => {
   try {
     return await send({
@@ -20,6 +22,7 @@ export const sendPushNotification = async ({
       includedSegments,
       excludedSegments,
       includeSubscriptionIds,
+      url,
     });
   } catch (error) {
     console.error(
@@ -36,6 +39,7 @@ export const sendPushNotification = async ({
           includedSegments,
           excludedSegments,
           includeSubscriptionIds,
+          url,
         });
       } catch (error) {
         console.error("OneSignal Create Segment Error:", error);
@@ -52,11 +56,13 @@ const send = async ({
   includedSegments,
   excludedSegments,
   includeSubscriptionIds,
+  url,
 }: {
   contents: SendPushNotificationParams["contents"];
   includedSegments: string[];
   excludedSegments: string[];
   includeSubscriptionIds: string[];
+  url: string;
 }) => {
   const apiKey = process.env.ONESIGNAL_API_KEY!.replace(/\s/g, "");
   const appId = process.env.ONESIGNAL_APP_ID!.replace(/\s/g, "");
@@ -78,6 +84,8 @@ const send = async ({
       include_subscription_ids:
         includeSubscriptionIds?.length > 0 ? includeSubscriptionIds : undefined,
       target_channel: "push",
+      url,
+      web_url: url,
     }),
   };
 
