@@ -197,4 +197,11 @@ export class StripeExtension {
   async getPrice(priceId: string): Promise<Stripe.Price> {
     return await this.stripe.prices.retrieve(priceId);
   }
+
+  /**
+   * Get promotion
+   */
+  async getPromotion(promotionCode: string): Promise<Stripe.PromotionCode> {
+    return await this.stripe.promotionCodes.retrieve(promotionCode);
+  }
 }
