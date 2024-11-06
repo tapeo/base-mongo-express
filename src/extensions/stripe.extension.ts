@@ -46,7 +46,8 @@ export class StripeExtension {
   async createSubscription(
     customerId: string,
     priceId: string,
-    trialDays?: number
+    trialDays?: number,
+    promotionCode?: string
   ): Promise<Stripe.Subscription> {
     const subscription = await this.stripe.subscriptions.create({
       customer: customerId,
@@ -57,6 +58,11 @@ export class StripeExtension {
         save_default_payment_method: "on_subscription",
       },
       expand: ["latest_invoice.payment_intent"],
+      discounts: [
+        {
+          promotion_code: promotionCode,
+        },
+      ],
     });
 
     return subscription;
