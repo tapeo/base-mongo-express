@@ -7,6 +7,7 @@ interface SendPushNotificationParams {
   excludedSegments?: string[];
   includeSubscriptionIds?: string[];
   url: string;
+  webUrl?: string;
 }
 
 export const sendPushNotification = async ({
@@ -15,6 +16,7 @@ export const sendPushNotification = async ({
   excludedSegments = [],
   includeSubscriptionIds = [],
   url,
+  webUrl,
 }: SendPushNotificationParams) => {
   try {
     return await send({
@@ -23,6 +25,7 @@ export const sendPushNotification = async ({
       excludedSegments,
       includeSubscriptionIds,
       url,
+      webUrl,
     });
   } catch (error) {
     console.error(
@@ -40,6 +43,7 @@ export const sendPushNotification = async ({
           excludedSegments,
           includeSubscriptionIds,
           url,
+          webUrl,
         });
       } catch (error) {
         console.error("OneSignal Create Segment Error:", error);
@@ -57,15 +61,29 @@ const send = async ({
   excludedSegments,
   includeSubscriptionIds,
   url,
+  webUrl,
 }: {
   contents: SendPushNotificationParams["contents"];
   includedSegments: string[];
   excludedSegments: string[];
   includeSubscriptionIds: string[];
   url: string;
+  webUrl?: string;
 }) => {
   const apiKey = process.env.ONESIGNAL_API_KEY!.replace(/\s/g, "");
   const appId = process.env.ONESIGNAL_APP_ID!.replace(/\s/g, "");
+
+  let urlSanitized;
+  if (url) {
+    urlSanitized = url.startsWith("https://") ? url : `https://${url}`;
+  }
+
+  let webUrlSanitized;
+  if (webUrl) {
+    webUrlSanitized = webUrl.startsWith("https://")
+      ? webUrl
+      : `https://${webUrl}`;
+  }
 
   const options = {
     method: "POST",
@@ -84,8 +102,8 @@ const send = async ({
       include_subscription_ids:
         includeSubscriptionIds?.length > 0 ? includeSubscriptionIds : undefined,
       target_channel: "push",
-      url,
-      web_url: url,
+      url: webUrlSanitized ? undefined : urlSanitized,
+      web_url: webUrlSanitized,
     }),
   };
 
