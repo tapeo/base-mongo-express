@@ -58,15 +58,18 @@ const send = async ({
   excludedSegments: string[];
   includeSubscriptionIds: string[];
 }) => {
+  const apiKey = process.env.ONESIGNAL_API_KEY!.replace(/\s/g, "");
+  const appId = process.env.ONESIGNAL_APP_ID!.replace(/\s/g, "");
+
   const options = {
     method: "POST",
     headers: {
-      Authorization: `Basic ${process.env.ONESIGNAL_API_KEY}`,
+      Authorization: `Basic ${apiKey}`,
       accept: "application/json",
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      app_id: process.env.ONESIGNAL_APP_ID,
+      app_id: appId,
       contents,
       included_segments:
         includedSegments?.length > 0 ? includedSegments : undefined,
