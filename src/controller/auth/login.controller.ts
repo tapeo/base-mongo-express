@@ -51,8 +51,8 @@ export const loginHandler = async (req: Request, res: Response) => {
 };
 
 export const logoutHandler = async (req: Request, res: Response) => {
-  res.clearCookie("access_token", { httpOnly: true });
-  res.clearCookie("refresh_token", { httpOnly: true });
+  res.cookie("access_token", "", { httpOnly: true, expires: new Date(0) });
+  res.cookie("refresh_token", "", { httpOnly: true, expires: new Date(0) });
   res.json({ message: "Logout successful" });
 };
 
