@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { setCookies } from "../../libs/cookie";
+import { clearCookies, setCookies } from "../../libs/cookie";
 import { encrypt } from "../../libs/crypto";
 import { generateAccessToken, generateRefreshToken } from "../../libs/jwt";
 import { RefreshTokenService } from "../../services/refresh-token.service";
@@ -51,8 +51,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 };
 
 export const logoutHandler = async (req: Request, res: Response) => {
-  res.cookie("access_token", "", { httpOnly: true, expires: new Date(0) });
-  res.cookie("refresh_token", "", { httpOnly: true, expires: new Date(0) });
+  clearCookies(res);
   res.json({ message: "Logout successful" });
 };
 

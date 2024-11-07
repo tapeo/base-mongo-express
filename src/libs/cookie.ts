@@ -24,3 +24,21 @@ export const setCookies = (
     maxAge: REFRESH_TOKEN_EXPIRATION_TIME,
   });
 };
+
+export const clearCookies = (res: Response) => {
+  res.cookie("access_token", "", {
+    domain: process.env.DOMAIN,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    expires: new Date(0),
+  });
+
+  res.cookie("refresh_token", "", {
+    domain: process.env.DOMAIN,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    expires: new Date(0),
+  });
+};
