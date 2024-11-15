@@ -5,7 +5,6 @@ import {
 } from "@apple/app-store-server-library";
 import { readFileSync } from "fs";
 import { jwtDecode } from "../libs/jwt";
-import { config } from "../sample.config";
 
 type AppleVerifyProps = {
   serverVerificationData: string;
@@ -23,10 +22,13 @@ export async function extensionAppleVerify({
     privateKey = readFileSync(filePath, "utf8");
   }
 
-  const issuerId = config.apple.issuerId;
-  const keyId = config.apple.keyId;
-  const bundleId = config.apple.bundleId;
-  const environment = Environment.SANDBOX;
+  const issuerId = process.env.APPLE_ISSUER_ID!;
+  const keyId = process.env.APPLE_KEY_ID!;
+  const bundleId = process.env.APPLE_BUNDLE_ID!;
+  const environment =
+    process.env.ENV === "production"
+      ? Environment.PRODUCTION
+      : Environment.SANDBOX;
 
   if (!serverVerificationData) {
     throw new Error("Missing server verification data");

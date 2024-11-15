@@ -1,16 +1,20 @@
 import axios from "axios";
 import fs from "fs";
-import { config } from "../sample.config";
 
-interface SendEmailParams {
+export interface SendEmailParams {
+  from: {
+    email: string;
+    name: string;
+  };
   email: string;
   text: string;
   subject: string;
-  imageFile: Express.Multer.File;
-  nameFile: string;
+  imageFile: Express.Multer.File | undefined;
+  nameFile: string | undefined;
 }
 
 export const extensionSendEmail = async ({
+  from,
   email,
   text,
   subject,
@@ -18,16 +22,23 @@ export const extensionSendEmail = async ({
   nameFile,
 }: SendEmailParams) => {
   const html = text.split("\n").join("<br />");
-  const base64Image = fs.readFileSync(imageFile.path, {
-    encoding: "base64",
-  });
+
+  let attachments: any[] = [];
+
+  if (imageFile) {
+    const base64Image = fs.readFileSync(imageFile.path, {
+      encoding: "base64",
+    });
+
+    attachments = [{ content: base64Image, filename: nameFile }];
+  }
 
   const body = {
-    from: { email: config.email, name: config.name },
+    from: { email: from.email, name: from.name },
     to: [{ email: email }],
     subject: subject,
     html,
-    attachments: [{ content: base64Image, filename: nameFile }],
+    attachments: attachments,
   };
 
   const apiKey = process.env.MAILERSEND_API_KEY;
@@ -40,7 +51,9 @@ export const extensionSendEmail = async ({
     },
   });
 
-  fs.unlinkSync(imageFile.path);
+  if (imageFile) {
+    fs.unlinkSync(imageFile.path);
+  }
 
   return response;
 };
