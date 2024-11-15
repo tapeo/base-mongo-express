@@ -43,15 +43,27 @@ export class StripeExtension {
   /**
    * Create a subscription with an optional trial period
    */
-  async createSubscription(
-    customerId: string,
-    priceId: string,
-    trialDays?: number,
-    promotionCode?: string
-  ): Promise<Stripe.Subscription> {
+  async createSubscription({
+    customerId,
+    priceId,
+    trialDays,
+    promotionCode,
+    currency,
+  }: {
+    customerId: string;
+    priceId: string;
+    trialDays?: number;
+    promotionCode?: string;
+    currency?: string;
+  }): Promise<Stripe.Subscription> {
     const subscription = await this.stripe.subscriptions.create({
       customer: customerId,
-      items: [{ price: priceId }],
+      items: [
+        {
+          price: priceId,
+        },
+      ],
+      currency,
       trial_period_days: trialDays,
       payment_behavior: "default_incomplete",
       payment_settings: {
@@ -195,7 +207,11 @@ export class StripeExtension {
    * Get price
    */
   async getPrice(priceId: string): Promise<Stripe.Price> {
-    return await this.stripe.prices.retrieve(priceId);
+    const price = await this.stripe.prices.retrieve(priceId, {
+      expand: ["currency_options"],
+    });
+
+    return price;
   }
 
   /**
