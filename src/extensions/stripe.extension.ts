@@ -218,6 +218,8 @@ export class StripeExtension {
    * Get promotion
    */
   async getPromotion(promotionCode: string): Promise<Stripe.PromotionCode> {
-    return await this.stripe.promotionCodes.retrieve(promotionCode);
+    return await this.stripe.promotionCodes.retrieve(promotionCode, {
+      expand: ["coupon.currency_options"],
+    });
   }
 }
