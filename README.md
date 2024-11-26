@@ -109,3 +109,12 @@ https.createServer({
   cert: fs.readFileSync("TeoBook.fritz.box.pem"),
 }, app).listen(port, host, () => {
 ```
+
+## Private NPM Registry
+
+```
+npm install -g verdaccio
+verdaccio
+npm login --registry http://localhost:4873
+npm install backend --registry http://localhost:4873
+```
