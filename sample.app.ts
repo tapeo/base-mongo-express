@@ -4,15 +4,15 @@
 // import {
 //   loginHandler,
 //   logoutHandler,
-// } from "backend/src/controller/auth/login.controller";
-// import passwordController from "backend/src/controller/auth/password.controller";
-// import { refreshTokenHandler } from "backend/src/controller/auth/refresh-token.controller";
-// import { signupHandler } from "backend/src/controller/auth/signup.controller";
-// import { meHandler } from "backend/src/controller/user/me.controller";
-// import { extensionSendTelegramBotMessage } from "backend/src/extensions/telegram.extension";
-// import connectDB from "backend/src/libs/mongo";
-// import jwtDecodeMiddleware from "backend/src/middleware/jwt-decode";
-// import { JsonTyped } from "backend/src/types/typed-response";
+// } from "backend/dist/src/controller/auth/login.controller";
+// import passwordController from "backend/dist/src/controller/auth/password.controller";
+// import { refreshTokenHandler } from "backend/dist/src/controller/auth/refresh-token.controller";
+// import { signupHandler } from "backend/dist/src/controller/auth/signup.controller";
+// import { meHandler } from "backend/dist/src/controller/user/me.controller";
+// import { extensionSendTelegramBotMessage } from "backend/dist/src/extensions/telegram.extension";
+// import connectDB from "backend/dist/src/libs/mongo";
+// import jwtDecodeMiddleware from "backend/dist/src/middleware/jwt-decode";
+// import { JsonTyped } from "backend/dist/src/types/typed-response";
 // import cookieParser from "cookie-parser";
 // import cors from "cors";
 // import express, { Express } from "express";
