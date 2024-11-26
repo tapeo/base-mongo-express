@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { decrypt, encrypt } from "../../libs/crypto";
-import { generateAccessToken, generateRefreshToken } from "../../libs/jwt";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  REFRESH_TOKEN_SECRET,
+} from "../../libs/jwt";
 import { RefreshTokenService } from "../../services/refresh-token.service";
-
-export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
 export const refreshTokenHandler = async (req: Request, res: Response) => {
   const refreshToken = req.body.refresh_token;

@@ -1,1 +1,1 @@
-class NotFoundException extends Error {}
+export class NotFoundException extends Error {}

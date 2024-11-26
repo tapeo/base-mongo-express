@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { REFRESH_TOKEN_SECRET } from "../controller/auth/refresh-token.controller";
 import { setCookies } from "../libs/cookie";
 import { decrypt, encrypt } from "../libs/crypto";
-import { generateAccessToken, generateRefreshToken } from "../libs/jwt";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  REFRESH_TOKEN_SECRET,
+} from "../libs/jwt";
 import { RefreshTokenService } from "../services/refresh-token.service";
 
 const jwtDecodeMiddleware = async (
