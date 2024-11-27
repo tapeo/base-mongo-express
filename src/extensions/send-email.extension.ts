@@ -1,4 +1,3 @@
-import axios from "axios";
 import fs from "fs";
 
 export interface SendEmailParams {
@@ -44,16 +43,22 @@ export const extensionSendEmail = async ({
   const apiKey = process.env.MAILERSEND_API_KEY;
   const apiUrl = "https://api.mailersend.com/v1/email";
 
-  const response = await axios.post(apiUrl, body, {
+  const response = await fetch(apiUrl, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
     },
+    body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    throw new Error(`Email sending failed: ${response.statusText}`);
+  }
 
   if (imageFile) {
     fs.unlinkSync(imageFile.path);
   }
 
-  return response;
+  return response.json();
 };
