@@ -10,32 +10,30 @@ export class RefreshTokenService {
       encrypted_jwt: refreshToken,
     };
 
-    const user = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       userId,
       { $push: { refresh_tokens: data } },
       { new: true, useFindAndModify: false }
     );
 
+    const user = await User.findById(userId);
     if (!user) {
       throw new Error("User not found");
     }
 
-    // delete all expired tokens
-    const indexListDelete: number[] = [];
+    const validTokens = user.refresh_tokens.filter(
+      (token) => token.expires_at >= new Date()
+    );
 
-    for (let i = 0; i < user.refresh_tokens.length; i++) {
-      if (user.refresh_tokens[i].expires_at < new Date()) {
-        indexListDelete.push(i);
-      }
+    if (validTokens.length < user.refresh_tokens.length) {
+      await User.findByIdAndUpdate(
+        userId,
+        { $set: { refresh_tokens: validTokens } },
+        { new: true, useFindAndModify: false }
+      );
     }
 
-    for (let i = indexListDelete.length - 1; i >= 0; i--) {
-      user.refresh_tokens.splice(indexListDelete[i], 1);
-    }
-
-    await user.save();
-
-    return user?.refresh_tokens[user.refresh_tokens.length - 1];
+    return validTokens[validTokens.length - 1];
   };
 
   static getByUserId = async (userId: string) => {
