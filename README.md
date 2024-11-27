@@ -116,5 +116,11 @@ https.createServer({
 npm install -g verdaccio
 verdaccio
 npm login --registry http://localhost:4873
-npm install backend --registry http://localhost:4873
+npm pack
+```
+
+then copy the package into the `packages` folder of the project and install it:
+
+```
+npm install ./packages/backend-1.0.11-beta-1.tgz
 ```
