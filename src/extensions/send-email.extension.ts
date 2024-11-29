@@ -59,6 +59,4 @@ export const extensionSendEmail = async ({
   if (imageFile) {
     fs.unlinkSync(imageFile.path);
   }
-
-  return response.json();
 };

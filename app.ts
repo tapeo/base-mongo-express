@@ -1,5 +1,6 @@
 // controllers
 export * from "./src/controller/auth/login.controller";
+export * from "./src/controller/auth/otp.controller";
 export * from "./src/controller/auth/password.controller";
 export * from "./src/controller/auth/refresh-token.controller";
 export * from "./src/controller/auth/signup.controller";
@@ -28,6 +29,7 @@ export * from "./src/libs/mongo";
 export * from "./src/middleware/jwt-decode";
 
 // models
+export * from "./src/model/otp.model";
 export * from "./src/model/user.model";
 
 // services

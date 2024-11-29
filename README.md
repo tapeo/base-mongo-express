@@ -115,8 +115,7 @@ https.createServer({
 ```
 npm install -g verdaccio
 verdaccio
-npm login --registry http://localhost:4873
-npm pack
+npm run build &&npm pack
 ```
 
 then copy the package into the `packages` folder of the project and install it:
