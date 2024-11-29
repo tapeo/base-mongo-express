@@ -1,4 +1,4 @@
-/* import { config } from "dotenv";
+import { config } from "dotenv";
 config();
 
 import {
@@ -349,4 +349,3 @@ if (devServerHttps) {
     console.log(`[server]: Server is running at http://${host}:${port}`);
   });
 }
- */
