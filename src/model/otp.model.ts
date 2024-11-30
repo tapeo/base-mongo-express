@@ -6,7 +6,7 @@ export enum OtpPurpose {
 }
 
 export interface IOtp extends Document {
-  user_id: mongoose.Types.ObjectId;
+  email: string;
   otp: string;
   purpose: OtpPurpose;
   expires_at: Date;
@@ -17,9 +17,8 @@ export interface IOtp extends Document {
 
 const otpSchema = new Schema<IOtp>(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+    email: {
+      type: String,
       required: true,
     },
     otp: {
@@ -47,7 +46,7 @@ const otpSchema = new Schema<IOtp>(
 );
 
 // Index for querying OTPs
-otpSchema.index({ userId: 1, purpose: 1 });
+otpSchema.index({ email: 1, purpose: 1 });
 
 // Create the OTP model
 const otpModel = mongoose.model<IOtp>("OTP", otpSchema);

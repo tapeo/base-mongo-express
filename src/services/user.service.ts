@@ -35,12 +35,4 @@ export class UserService {
 
     return user;
   };
-
-  static verifyEmail = async (idUser: string) => {
-    const user = await User.findByIdAndUpdate(idUser, {
-      email_verified: true,
-    });
-
-    return user;
-  };
 }

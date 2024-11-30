@@ -1,6 +1,5 @@
 // controllers
 export * from "./src/controller/auth/login.controller";
-export * from "./src/controller/auth/otp.controller";
 export * from "./src/controller/auth/password.controller";
 export * from "./src/controller/auth/refresh-token.controller";
 export * from "./src/controller/auth/signup.controller";
