@@ -28,7 +28,6 @@ export interface IUser {
   id_stripe_customer: string;
   id_stripe_connect: string;
   refresh_tokens: IRefreshToken[];
-  email_verified: boolean;
 }
 
 export const UserSchema = new Schema({
@@ -66,10 +65,6 @@ export const UserSchema = new Schema({
     type: String,
   },
   refresh_tokens: [RefreshTokenSchema],
-  email_verified: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 export const User = model("User", UserSchema);
