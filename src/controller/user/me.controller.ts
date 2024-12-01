@@ -36,7 +36,7 @@ export const deleteMeHandler = async (req: Request, res: Response) => {
     }
 
     await extensionSendTelegramBotMessage({
-      content: `User account deletion request: ${idUser} ${user.email}`,
+      content: `User account deletion request: ${idUser} ${user.email} on ${process.env.DOMAIN}`,
       parse_mode: "HTML",
     });
 
