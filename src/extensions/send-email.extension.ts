@@ -6,7 +6,7 @@ export interface SendEmailParams {
     name: string;
   };
   email: string;
-  text: string;
+  html: string;
   subject: string;
   imageFile: Express.Multer.File | undefined;
   nameFile: string | undefined;
@@ -15,13 +15,11 @@ export interface SendEmailParams {
 export const extensionSendEmail = async ({
   from,
   email,
-  text,
+  html,
   subject,
   imageFile,
   nameFile,
 }: SendEmailParams) => {
-  const html = text.split("\n").join("<br />");
-
   let attachments: any[] = [];
 
   if (imageFile) {

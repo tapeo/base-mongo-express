@@ -30,11 +30,27 @@ const forgotPassword = async (req: Request, res: Response) => {
       name: process.env.NAME_FROM!,
     },
     email: user.email,
-    subject: "Password Reset",
-    text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-                Please click on the following link, or paste this into your browser to complete the process:\n\n
-                https://${req.headers.host}/password/reset/${token}\n\n
-                If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    subject: `Password reset - ${process.env.NAME_FROM}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <p>Hello,</p>
+        
+        <p>A password reset was requested for your ${process.env.NAME_FROM} account.</p>
+        
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="https://${req.headers.host}/password/reset/${token}" 
+             style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block;">
+            Reset Password
+          </a>
+        </div>
+        
+        <p>Link expires in 1 hour. If you didn't request this, please ignore this email.</p>
+        
+        <p style="color: #666; font-size: 12px;">
+          Automated message from ${process.env.NAME_FROM}
+        </p>
+      </div>
+    `,
     imageFile: undefined,
     nameFile: undefined,
   };

@@ -56,8 +56,22 @@ export const sendEmailVerificationHandler = async (
       name: process.env.NAME_FROM!,
     },
     email,
-    subject: "Verification Code",
-    text: `Your verification code is: ${otp}`,
+    subject: "Verify your email",
+    html: `
+      <div style="font-family: Arial, sans-serif;">
+        <p>Welcome to ${process.env.NAME_FROM}!</p>
+        
+        <p>Your verification code is:</p>
+        
+        <div style="background: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 3px;">
+          ${otp}
+        </div>
+        
+        <p>Code expires in 10 minutes.</p>
+        
+        <p>${process.env.NAME_FROM} Team</p>
+      </div>
+    `,
     imageFile: undefined,
     nameFile: undefined,
   };
