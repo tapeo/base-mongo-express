@@ -37,19 +37,40 @@ const forgotPassword = async (req: Request, res: Response) => {
         
         <p>A password reset was requested for your ${process.env.NAME_FROM} account.</p>
         
-        <div style="text-align: center; margin: 20px 0;">
-          <a href="https://${req.headers.host}/password/reset/${token}" 
-             style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block;">
-            Reset Password
-          </a>
-        </div>
+        <p><a href="https://${req.headers.host}/password/reset/${token}" 
+              style="color: #007bff;">Click here to reset your password</a></p>
         
-        <p>Link expires in 1 hour. If you didn't request this, please ignore this email.</p>
+        <p>This link will expire in 1 hour.</p>
         
-        <p style="color: #666; font-size: 12px;">
-          Automated message from ${process.env.NAME_FROM}
+        <p>If you didn't request this password reset, please ignore this email.</p>
+        
+        <p>Best regards,<br>${process.env.NAME_FROM} Team</p>
+        
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+        <p style="font-size: 12px; color: #666;">
+          You received this email because a password reset was requested for your ${process.env.NAME_FROM} account. 
+          If you didn't make this request, you can safely ignore this email.
         </p>
       </div>
+    `,
+    text: `
+Hello,
+
+A password reset was requested for your ${process.env.NAME_FROM} account.
+
+To reset your password, visit this link:
+https://${req.headers.host}/password/reset/${token}
+
+This link will expire in 1 hour.
+
+If you didn't request this password reset, please ignore this email.
+
+Best regards,
+${process.env.NAME_FROM} Team
+
+---
+You received this email because a password reset was requested for your ${process.env.NAME_FROM} account. 
+If you didn't make this request, you can safely ignore this email.
     `,
     imageFile: undefined,
     nameFile: undefined,

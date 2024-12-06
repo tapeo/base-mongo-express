@@ -58,19 +58,35 @@ export const sendEmailVerificationHandler = async (
     email,
     subject: "Verify your email",
     html: `
-      <div style="font-family: Arial, sans-serif;">
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <p>Welcome to ${process.env.NAME_FROM}!</p>
         
-        <p>Your verification code is:</p>
+        <p>Your verification code is: <strong>${otp}</strong></p>
         
-        <div style="background: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 3px;">
-          ${otp}
-        </div>
+        <p>This code will expire in 10 minutes.</p>
         
-        <p>Code expires in 10 minutes.</p>
+        <p>Best regards,<br>${process.env.NAME_FROM} Team</p>
         
-        <p>${process.env.NAME_FROM} Team</p>
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+        <p style="font-size: 12px; color: #666;">
+          You received this email because you signed up for ${process.env.NAME_FROM}. 
+          If you didn't request this, you can safely ignore this email.
+        </p>
       </div>
+    `,
+    text: `
+Welcome to ${process.env.NAME_FROM}!
+
+Your verification code is: ${otp}
+
+This code will expire in 10 minutes.
+
+Best regards,
+${process.env.NAME_FROM} Team
+
+---
+You received this email because you signed up for ${process.env.NAME_FROM}. 
+If you didn't request this, you can safely ignore this email.
     `,
     imageFile: undefined,
     nameFile: undefined,

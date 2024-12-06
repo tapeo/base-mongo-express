@@ -7,6 +7,7 @@ export interface SendEmailParams {
   };
   email: string;
   html: string;
+  text: string;
   subject: string;
   imageFile: Express.Multer.File | undefined;
   nameFile: string | undefined;
@@ -16,6 +17,7 @@ export const extensionSendEmail = async ({
   from,
   email,
   html,
+  text,
   subject,
   imageFile,
   nameFile,
@@ -35,7 +37,8 @@ export const extensionSendEmail = async ({
     to: [{ email: email }],
     subject: subject,
     html,
-    attachments: attachments,
+    text,
+    attachments,
   };
 
   const apiKey = process.env.MAILERSEND_API_KEY;
@@ -51,7 +54,11 @@ export const extensionSendEmail = async ({
   });
 
   if (!response.ok) {
-    throw new Error(`Email sending failed: ${response.statusText}`);
+    const responseBody = await response.json();
+
+    throw new Error(
+      `Email sending failed response: ${JSON.stringify(responseBody)}`
+    );
   }
 
   if (imageFile) {
