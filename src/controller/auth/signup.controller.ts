@@ -21,7 +21,9 @@ export const sendEmailVerificationHandler = async (
 ): Promise<void> => {
   const { email } = req.body;
 
-  if (!email) {
+  const sanitizedEmail = email.trim().toLowerCase();
+
+  if (!sanitizedEmail) {
     return res.status(400).jsonTyped({
       status: "error",
       message: "Email is required",
@@ -31,7 +33,7 @@ export const sendEmailVerificationHandler = async (
 
   // Delete any existing unused OTPs for this user and purpose
   await otpModel.deleteMany({
-    email,
+    email: sanitizedEmail,
     purpose: OtpPurpose.EMAIL_VERIFICATION,
     is_used: false,
   });
@@ -44,7 +46,7 @@ export const sendEmailVerificationHandler = async (
 
   // Save OTP to database
   await otpModel.create({
-    email,
+    email: sanitizedEmail,
     otp,
     purpose: OtpPurpose.EMAIL_VERIFICATION,
     expires_at,
@@ -55,7 +57,7 @@ export const sendEmailVerificationHandler = async (
       email: process.env.EMAIL_FROM!,
       name: process.env.NAME_FROM!,
     },
-    email,
+    email: sanitizedEmail,
     subject: "Verify your email",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

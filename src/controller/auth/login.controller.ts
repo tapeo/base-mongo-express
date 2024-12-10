@@ -22,13 +22,19 @@ export const loginHandler = async (req: Request, res: Response) => {
   }
 
   try {
-    const user = await UserService.getUserByEmail(email);
+    const user = await UserService.getUserByEmail(sanitizedEmail);
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
-      const accessToken = generateAccessToken(user.id.toString(), email);
-      const refreshToken = generateRefreshToken(user.id.toString(), email);
+      const accessToken = generateAccessToken(
+        user.id.toString(),
+        sanitizedEmail
+      );
+      const refreshToken = generateRefreshToken(
+        user.id.toString(),
+        sanitizedEmail
+      );
 
       const encryptedRefreshToken = encrypt(refreshToken);
 

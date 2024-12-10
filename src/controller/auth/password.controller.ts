@@ -10,7 +10,9 @@ import { User } from "../../model/user.model";
 const forgotPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
 
-  const user = await User.findOne({ email });
+  const sanitizedEmail = email.trim().toLowerCase();
+
+  const user = await User.findOne({ email: sanitizedEmail });
   if (!user) {
     return res
       .status(404)
