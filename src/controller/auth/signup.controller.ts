@@ -116,11 +116,13 @@ export const signupWithVerificationHandler = async (
     });
   }
 
+  const sanitizedEmail = email.trim().toLowerCase();
+
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(sanitizedEmail)) {
     return res.status(400).jsonTyped({
       status: "error",
       message: "Invalid email",
@@ -129,7 +131,7 @@ export const signupWithVerificationHandler = async (
   }
 
   const otpDoc = await otpModel.findOne({
-    email,
+    email: sanitizedEmail,
     otp,
     purpose: OtpPurpose.EMAIL_VERIFICATION,
     is_used: false,
@@ -147,7 +149,7 @@ export const signupWithVerificationHandler = async (
   otpDoc.is_used = true;
   await otpDoc.save();
 
-  return await createUserAccount(email, password, res);
+  return await createUserAccount(sanitizedEmail, password, res);
 };
 
 export const signupWithoutVerificationHandler = async (
@@ -164,11 +166,13 @@ export const signupWithoutVerificationHandler = async (
     });
   }
 
+  const sanitizedEmail = email.trim().toLowerCase();
+
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(sanitizedEmail)) {
     return res.status(400).jsonTyped({
       status: "error",
       message: "Invalid email",
@@ -176,7 +180,7 @@ export const signupWithoutVerificationHandler = async (
     });
   }
 
-  return await createUserAccount(email, password, res);
+  return await createUserAccount(sanitizedEmail, password, res);
 };
 
 // Helper function to create user account
