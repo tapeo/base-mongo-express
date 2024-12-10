@@ -185,11 +185,13 @@ const createUserAccount = async (
 ): Promise<void> => {
   const passwordEncrypted = await bcrypt.hash(password, 10);
 
+  const sanitizedEmail = email.trim().toLowerCase();
+
   try {
-    const user = await UserService.post(email, passwordEncrypted);
+    const user = await UserService.post(sanitizedEmail, passwordEncrypted);
 
     await extensionSendTelegramBotMessage({
-      content: `New user registered: ${email} on ${process.env.DOMAIN}`,
+      content: `New user registered: ${sanitizedEmail} on ${process.env.DOMAIN}`,
     });
 
     return res.status(200).jsonTyped({
