@@ -100,7 +100,7 @@ If you didn't request this, you can safely ignore this email.
   });
 };
 
-export const signupHandler = async (
+export const signupWithVerificationHandler = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -145,6 +145,44 @@ export const signupHandler = async (
   otpDoc.is_used = true;
   await otpDoc.save();
 
+  return await createUserAccount(email, password, res);
+};
+
+export const signupWithoutVerificationHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).jsonTyped({
+      status: "error",
+      message: "Email and password are required",
+      data: null,
+    });
+  }
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  if (!isValidEmail(email)) {
+    return res.status(400).jsonTyped({
+      status: "error",
+      message: "Invalid email",
+      data: null,
+    });
+  }
+
+  return await createUserAccount(email, password, res);
+};
+
+// Helper function to create user account
+const createUserAccount = async (
+  email: string,
+  password: string,
+  res: Response
+): Promise<void> => {
   const passwordEncrypted = await bcrypt.hash(password, 10);
 
   try {
