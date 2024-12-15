@@ -48,7 +48,7 @@ export const extensionSendEmail = async ({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      "Authorization": `Bearer ${apiKey}`,
     },
     body: JSON.stringify(body),
   });
@@ -57,7 +57,9 @@ export const extensionSendEmail = async ({
     const responseBody = await response.json();
 
     throw new Error(
-      `Email sending failed response: ${JSON.stringify(responseBody)}`
+      `Email sending failed response: ${JSON.stringify(
+        responseBody
+      )}, request: ${JSON.stringify(body)}`
     );
   }
 
