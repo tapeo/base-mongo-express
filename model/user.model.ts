@@ -29,7 +29,7 @@ export interface IUser {
   id_stripe_connect: string;
   refresh_tokens: IRefreshToken[];
   name?: string | null;
-  user_type?: string | null;
+  type?: string | null;
 }
 
 export const UserSchema = new Schema({
@@ -71,7 +71,7 @@ export const UserSchema = new Schema({
     type: String,
     default: null,
   },
-  user_type: {
+  type: {
     type: String,
     default: null,
   },
