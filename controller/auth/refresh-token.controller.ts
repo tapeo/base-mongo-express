@@ -23,7 +23,7 @@ export const refreshTokenHandler = async (req: Request, res: Response) => {
   }
 
   if (!idUser) {
-    res.status(401).json({ message: "Unauthorized, user not found" });
+    res.status(404).json({ message: "Unauthorized, user not found" });
     return;
   }
 

@@ -34,7 +34,7 @@ const jwtDecodeMiddleware = async (
     const idUser = decodedAccess["x-user-id"];
     const email = decodedAccess["x-email"];
     if (!idUser) {
-      res.status(401).json({ message: "Unauthorized, user not found" });
+      res.status(404).json({ message: "Unauthorized, user not found" });
       return;
     }
 
@@ -51,10 +51,18 @@ const jwtDecodeMiddleware = async (
     return;
   }
 
-  // Verify refresh token
-  const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
-  const idUser = (decoded as any)["x-user-id"];
-  const email = (decoded as any)["x-email"];
+  let decoded: jwt.JwtPayload;
+
+  try {
+    decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET) as jwt.JwtPayload;
+  } catch (error) {
+    res.status(401).json({ message: "Unauthorized, jwt malformed" });
+    return;
+  }
+
+  const idUser = decoded["x-user-id"];
+  const email = decoded["x-email"];
+
   // Get user's refresh tokens and validate
   const refreshTokenList = await RefreshTokenService.getByUserId(idUser);
   let tokenFoundEncrypted: string | null = null;
@@ -69,7 +77,7 @@ const jwtDecodeMiddleware = async (
   }
 
   if (!tokenFoundEncrypted) {
-    res.status(401).json({ message: "Unauthorized, invalid refresh token" });
+    res.status(401).json({ message: "Unauthorized, token not found" });
     return;
   }
 

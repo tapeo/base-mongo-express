@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { extensionSendTelegramBotMessage } from "../../extensions/telegram.extension";
-import otpModel, { OtpPurpose } from "../../model/otp.model";
 import { UserService } from "../../services/user.service";
 
 import {
   extensionSendEmail,
   SendEmailParams,
 } from "../../extensions/send-email.extension";
+import otpModel, { OtpPurpose } from "../../model/otp.model";
 
 const generateOTP = (length: number = 6): string => {
   return Math.floor(Math.random() * Math.pow(10, length))
