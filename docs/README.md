@@ -123,3 +123,7 @@ then copy the package into the `packages` folder of the project and install it:
 ```
 npm install ./packages/backend-1.0.11-beta-1.tgz
 ```
+
+## Generate a random secret (for JWT)
+
+`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
