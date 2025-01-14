@@ -1,6 +1,31 @@
 import { User } from "../model/user.model";
 
 export class UserService {
+  static get = async ({
+    type,
+    search,
+  }: {
+    type?: string;
+    search?: string;
+  }): Promise<User[]> => {
+    const query: any = {};
+
+    if (type) {
+      query.type = type;
+    }
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const users = await User.find(query);
+
+    return users;
+  };
+
   static getById = async (id: string) => {
     const user = await User.findById(id);
 
