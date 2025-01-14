@@ -7,7 +7,7 @@ import {
 } from "../../extensions/send-email.extension";
 import { User } from "../../model/user.model";
 
-const forgotPassword = async (req: Request, res: Response) => {
+export const forgotPasswordHandler = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   const sanitizedEmail = email.trim().toLowerCase();
@@ -85,7 +85,7 @@ If you didn't make this request, you can safely ignore this email.
     .jsonTyped({ status: "success", message: "Password reset email sent" });
 };
 
-const tokenPassword = async (req: Request, res: Response) => {
+export const tokenPasswordHandler = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({
       reset_password_token: req.params.token,
@@ -107,7 +107,7 @@ const tokenPassword = async (req: Request, res: Response) => {
   }
 };
 
-const updatePassword = async (req: Request, res: Response) => {
+export const updatePasswordHandler = async (req: Request, res: Response) => {
   try {
     const { token } = req.body;
 
@@ -149,10 +149,4 @@ const updatePassword = async (req: Request, res: Response) => {
       message: "Error in updating password",
     });
   }
-};
-
-export default {
-  forgotPassword,
-  tokenPassword,
-  updatePassword,
 };
