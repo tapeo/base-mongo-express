@@ -1,11 +1,27 @@
 import { model, Schema } from "mongoose";
 
-export interface IRefreshToken {
+export interface RefreshToken {
   expires_at: Date;
   encrypted_jwt: string;
 }
 
-export const RefreshTokenSchema = new Schema<IRefreshToken>({
+export interface User {
+  _id: string;
+  email: string;
+  password: string;
+  created_at: Date;
+  updated_at: Date;
+  reset_password_token: string | null;
+  reset_password_expires: Date | null;
+  picture_url: string;
+  id_stripe_customer: string;
+  id_stripe_connect: string;
+  refresh_tokens: RefreshToken[];
+  name?: string | null;
+  type?: string | null;
+}
+
+export const RefreshTokenSchema = new Schema<RefreshToken>({
   expires_at: {
     type: Date,
     required: true,
@@ -16,23 +32,7 @@ export const RefreshTokenSchema = new Schema<IRefreshToken>({
   },
 });
 
-export interface IUser {
-  _id: string;
-  email: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
-  reset_password_token: string;
-  reset_password_expires: string;
-  picture_url: string;
-  id_stripe_customer: string;
-  id_stripe_connect: string;
-  refresh_tokens: IRefreshToken[];
-  name?: string | null;
-  type?: string | null;
-}
-
-export const UserSchema = new Schema({
+export const UserSchema = new Schema<User>({
   email: {
     type: String,
     required: true,
