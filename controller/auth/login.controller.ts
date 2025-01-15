@@ -21,38 +21,35 @@ export const loginHandler = async (req: Request, res: Response) => {
     return;
   }
 
-  try {
-    const user = await UserService.getUserByEmail(sanitizedEmail);
+  const user = await UserService.getUserByEmail(sanitizedEmail);
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!user) {
+    res.status(401).json({ message: "Invalid email" });
+    return;
+  }
 
-    if (passwordMatch) {
-      const accessToken = generateAccessToken(
-        user.id.toString(),
-        sanitizedEmail
-      );
-      const refreshToken = generateRefreshToken(
-        user.id.toString(),
-        sanitizedEmail
-      );
+  const passwordMatch = await bcrypt.compare(password, user.password);
 
-      const encryptedRefreshToken = encrypt(refreshToken);
+  if (passwordMatch) {
+    const accessToken = generateAccessToken(user.id.toString(), sanitizedEmail);
+    const refreshToken = generateRefreshToken(
+      user.id.toString(),
+      sanitizedEmail
+    );
 
-      await RefreshTokenService.post(user.id, encryptedRefreshToken);
+    const encryptedRefreshToken = encrypt(refreshToken);
 
-      setCookies(accessToken, refreshToken, res);
+    await RefreshTokenService.post(user.id, encryptedRefreshToken);
 
-      res.json({
-        message: "Login successful, tokens saved as httpOnly cookie",
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      });
-    } else {
-      res.status(401).json({ message: "Invalid password" });
-    }
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: (error as Error).message });
+    setCookies(accessToken, refreshToken, res);
+
+    res.json({
+      message: "Login successful, tokens saved as httpOnly cookie",
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    });
+  } else {
+    res.status(401).json({ message: "Invalid password" });
   }
 };
 
